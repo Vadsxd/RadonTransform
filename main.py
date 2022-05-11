@@ -80,9 +80,14 @@ def tsvd_upre_parameter(sigma, utbn, eta_var, k_start, k_step, k_max, moving_avg
 
     return k, alpha_k, moving_average, alpha_vector
 
-# Надо сделать сингулярные коэффициенты из матрицы
-# Видос https://www.youtube.com/watch?v=4g-zS32oKEw
-sigma =
 
-# Произведение транспонированной U матрицы и b коэффициентов
+A = [[1, 2, 3],
+     [4, 5, 6]]
+
+b = [[5],
+     [1]]
+
+U, sigma, vh = np.linalg.svd(A)
+print(sigma)
 utbn = np.matmul(U.transpose(), b)
+print(tsvd_upre_parameter(sigma, utbn, 1, 0, 1, 2))
