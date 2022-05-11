@@ -87,6 +87,8 @@ A = [[1, 2, 3],
 b = [[5],
      [1]]
 
+
+# Для sigma >= 1 возвращает NaN - почему?
 U, sigma, vh = np.linalg.svd(A)
 print(sigma)
 utbn = np.matmul(U.transpose(), b)
