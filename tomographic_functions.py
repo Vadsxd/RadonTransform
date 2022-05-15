@@ -11,7 +11,7 @@ def radon_transform(image):
     # Также нужна float копия изображения по логистическим соображениям
     floatImage = ImageMath.eval("float(a)", a=image)
 
-    steps = image.size[0] # ? количетво строк в изображении
+    steps = image.size[0] # ? количество строк в изображении
     # Пустой массив для хранения вновь созданной синограммы
     radon = np.zeros((steps, len(npImage)), dtype='float64')
 
