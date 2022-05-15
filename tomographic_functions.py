@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import ImageMath
-from scipy.fftpack import fft, ifft, fftfreq
+from scipy.fftpack import fft, ifft
+from Filter import filter_func
 
 
 def radon_transform(image):
@@ -46,7 +47,7 @@ def inverse_radon_transform(sinogram, limit):
 
     # Теперь нам нужно развернуть фильтры, они основаны на преобразованиях Фурье
     # Во-первых, получим частоты
-    filter = fftfreq(max_projeciton_size).reshape(-1, 1)
+    filter = filter_func(max_projeciton_size).reshape(-1, 1)
 
     # Одним из лучших фильтров для применения является фильтр Ram-Lak
     # Применим преобразование Фурье
