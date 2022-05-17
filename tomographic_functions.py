@@ -1,7 +1,9 @@
 import numpy as np
 from PIL import ImageMath
-from scipy.fftpack import fft, ifft
+from scipy.fftpack import ifft
 from Filter import filter_func
+from Fourier_Transform import fourier_transform
+from Inverse_Fourier_Transform import inverse_fourier_transform
 
 
 def radon_transform(image):
@@ -49,13 +51,16 @@ def inverse_radon_transform(sinogram, limit):
     # Во-первых, получим частоты
     filter = filter_func(max_projeciton_size).reshape(-1, 1)
 
+    # Если filter - это массив сигналов, то эти сигналы могут поступать к нам с шумами, кароч тут можно добавить шумы
+    # filter += 0.005
+
     # Одним из лучших фильтров для применения является фильтр Ram-Lak
     # Применим преобразование Фурье
     ram_lak = 2 * np.abs(filter)
-    fourier_projection = fft(padded_sinogram, axis=0) * ram_lak
+    fourier_projection = fourier_transform(padded_sinogram) * ram_lak
 
     # Нам нужны только действительные части обратного преобразования Фурье
-    radon_filter = np.real(ifft(fourier_projection, axis=0)) # вычисляет одномерное обратное дискретное преобразование Фурье
+    radon_filter = np.real(inverse_fourier_transform(fourier_projection)) # вычисляет одномерное обратное дискретное преобразование Фурье
     radon_filter = radon_filter[:sinogram.shape[0], :] # обрезаем по размеру синограммы
 
     # Подготовим место для размещения восстановленного изображения
