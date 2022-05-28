@@ -6,6 +6,66 @@ from Fourier_Transform import fourier_transform
 from Inverse_Fourier_Transform import inverse_fourier_transform
 
 
+def np_interp(angle, s, radon_filter):
+    c = 1
+    S_C = [0] * len(s)
+    for i in range(len(s)):
+       S_C[i] = s[i] / c
+
+    len_s = len(s)
+    # строим матрицу Вандермонда
+    vand_matr = np.zeros((len_s, len_s))
+    for i in range(len_s):
+        for j in range(len_s):
+            vand_matr[i][j] = S_C[i] ** j
+        # раскладываем ее LU разложением
+    L = np.identity(len_s)
+    U = np.zeros((len_s, len_s))
+
+    for i in range(1, len_s + 1):
+        for j in range(1, len_s + 1):
+            if i <= j:
+                sum = 0
+                for k in range(1, i):
+                    sum += L[i - 1][k - 1] * U[k - 1][j - 1]
+                U[i - 1][j - 1] = vand_matr[i - 1][j - 1] - sum
+
+            if i > j:
+                sum = 0
+                for k in range(1, j):
+                    sum += L[i - 1][k - 1] * U[k - 1][j - 1]
+                L[i - 1][j - 1] = (vand_matr[i - 1][j - 1] - sum) / U[j - 1][j - 1]
+
+    # ищем коэффициенты А из уравнения A = X^-1 * Y в два этапа
+    # L * Z = F
+    Z = [0]*len_s
+    for i in range(1, len_s + 1):
+        sum = 0
+        for k in range(1, i):
+            sum += Z[k - 1] * L[i - 1][k - 1]
+        Z[i - 1] = radon_filter[i - 1] - sum
+
+    # U * A = Z
+    T = [0] * len_s
+    for i in range(len_s, 0, -1):
+        sum = 0
+        for k in range(i + 1, len_s + 1):
+            sum += T[k - 1] * U[i - 1][k - 1]
+        T[i - 1] = (Z[i - 1] - sum)/U[i - 1][i - 1]
+
+    A = [0] * len_s
+    for i in range(len(s)):
+       A[i] = T[i] / c ** i
+    # из полученного многочлена вычисляем значение projection подставляя angle
+    projection = np.zeros((len_s, len_s))
+    for i in range(len_s):
+        for j in range(len_s):
+            for k in range(len_s):
+                projection[i][j] += A[len_s - 1 - k] * (angle[i][j] ** (len_s - k - 1))
+
+    return projection
+
+
 def radon_transform(image):
     """Реализация преобразования радона"""
 
