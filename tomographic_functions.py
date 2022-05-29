@@ -111,9 +111,6 @@ def inverse_radon_transform(sinogram, limit):
     # Во-первых, получим частоты
     filter = filter_func(max_projeciton_size).reshape(-1, 1)
 
-    # Если filter - это массив сигналов, то эти сигналы могут поступать к нам с шумами, кароч тут можно добавить шумы
-    # filter += 0.005
-
     # Одним из лучших фильтров для применения является фильтр Ram-Lak
     # Применим преобразование Фурье
     ram_lak = 2 * np.abs(filter)
