@@ -21,8 +21,8 @@ def make_pict_filtered(array):
     plt.plot(x_label, array)
     plt.show()
 
-
-    def result_visualisation(array):
+    
+def result_visualisation(array):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.set_title('Pixel Values on Picture')
