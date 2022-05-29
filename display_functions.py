@@ -49,6 +49,7 @@ def animate_reconstruction(original_image):
 def show_all_images(original_image, steps=180):
     radon_image = radon_transform(original_image)
     reconstructed_image = inverse_radon_transform(radon_image, steps)
+    result_visualisation(reconstructed_image.reshape(1, -1))
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 5))
 
