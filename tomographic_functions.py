@@ -1,6 +1,6 @@
 import numpy as np
 from PIL import ImageMath
-from scipy.fftpack import ifft
+
 from Filter import filter_func
 from Fourier_Transform import fourier_transform
 from Inverse_Fourier_Transform import inverse_fourier_transform
