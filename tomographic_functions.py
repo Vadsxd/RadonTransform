@@ -142,4 +142,4 @@ def inverse_radon_transform(sinogram, limit):
     radius = size // 2
     circle = (xprojection ** 2 + yprojection ** 2) <= radius ** 2
     reconstructed_image[~circle] = 0
-    return reconstructed_image  # * np.pi / (360)
+    return reconstructed_image
