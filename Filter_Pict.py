@@ -21,3 +21,14 @@ def make_pict_filtered(array):
     plt.plot(x_label, array)
     plt.show()
 
+
+    def result_visualisation(array):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_title('Pixel Values on Picture')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('Pixel Value')
+    ax.view_init(30, 30)
+    ax.scatter(list(range(0, array.shape[0])), list(range(0, array.shape[1])), array, s=0.2)
+    
